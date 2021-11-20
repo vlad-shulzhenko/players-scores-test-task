@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Flex,
+  Box,
+  Button,
+  Flex,
   Table,
   Tbody,
   Td,
   Th,
   Thead,
-  Tr, useColorModeValue,
+  Tr,
+  useColorModeValue,
 } from '@chakra-ui/react';
 import {
   FaUserAlt,
@@ -16,31 +19,24 @@ import {
 } from 'react-icons/fa';
 import { ResponseExample } from '../../types/ResponseExample';
 
-const TableComponent = () => {
-  const [response, setResponse] = useState<ResponseExample[]>([]);
-  // const [sorted, setSorted] = useState<boolean>(true);
-  const bg = useColorModeValue('#d8d8d8', '#e5e5e5');
+type Props = {
+  response: ResponseExample[];
+  sorted: boolean,
+  sortHandler: () => void,
+}
 
-  useEffect(() => {
-    const sse = new EventSource('http://localhost:5000');
-
-    sse.onmessage = function (event) {
-      const newPlayer = JSON.parse(event.data);
-
-      setResponse((currentPlayers) => [...currentPlayers, newPlayer]);
-    };
-
-    sse.onerror = function () {
-      console.warn('An error occurred while getting the user');
-      sse.close();
-    };
-  }, []);
+const TableComponent: React.FC<Props> = ({
+  response,
+  sorted,
+  sortHandler,
+}) => {
+  const bg = useColorModeValue('#d8d8d8', '#938f8f');
 
   return (
     <Box borderRadius="10px" border="1px solid grey" bgColor={bg}>
       <Table
         size="lg"
-        variant="simple"
+        variant="striped"
         borderRadius="10px"
         width="500px"
       >
@@ -56,6 +52,17 @@ const TableComponent = () => {
               <Flex gridGap="10px" align="center">
                 <FaHashtag />
                 Score
+                {sorted
+                  ? (
+                    <Button bgColor={bg} onClick={() => sortHandler()}>
+                      <FaArrowUp />
+                    </Button>
+                  )
+                  : (
+                    <Button bgColor={bg} onClick={() => sortHandler()}>
+                      <FaArrowDown />
+                    </Button>
+                  )}
               </Flex>
             </Th>
           </Tr>
