@@ -11,10 +11,12 @@ import { ResponseExample } from './types/ResponseExample';
 
 const App = () => {
   const [response, setResponse] = useState<ResponseExample[]>(JSON.parse(sessionStorage.getItem('players') || '[]'));
-  const [sorted, setSorted] = useState<boolean>(JSON.parse(sessionStorage.getItem('orderSort') || 'true'));
-  const sortedItems = [...response.sort((a: ResponseExample, b: ResponseExample) => {
-    return sorted ? a.score - b.score : b.score - a.score;
-  })];
+  const [sortOrder, setSortOrder] = useState<boolean>(JSON.parse(sessionStorage.getItem('orderSort') || 'true'));
+  const sortedItems = [...response].sort((a: ResponseExample, b: ResponseExample) => (sorted
+      ? a.score - b.score
+      : b.score - a.score
+  )); // sort це мутуючий медод ти не правильно робиш копію [...arr.sort()] => ти спершу сортуєш і модифікуєш старий масив
+  // а потім робиш копію. Правильний варіант => [...arr].sort()
 
   const sortHandler = () => {
     setSorted(() => {
@@ -51,8 +53,8 @@ const App = () => {
           py="50px"
         >
           <TableComponent
-            response={sortedItems}
-            sorted={sorted}
+            response={sortedItems} // відповідь = посортовані елементи
+            sorted={sorted} // посортовані = посортовані, не розумію що за пропси ти передаєш. Витрачаай більше часу для правильних назв для змінних
             sortHandler={sortHandler}
           />
         </Flex>
