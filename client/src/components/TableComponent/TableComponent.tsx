@@ -21,7 +21,7 @@ import { ResponseExample } from '../../types/ResponseExample';
 
 type Props = {
   response: ResponseExample[];
-  sorted: boolean,
+  sorted: boolean, // так посортовані це булеве значення. Matbe isSort or shouldSort
   sortHandler: () => void,
 }
 
@@ -30,7 +30,7 @@ const TableComponent: React.FC<Props> = ({
   sorted,
   sortHandler,
 }) => {
-  const bg = useColorModeValue('#d8d8d8', '#938f8f');
+  const bg = useColorModeValue('#d8d8d8', '#938f8f'); // bg - прям зразу розумію що це за змінна 
 
   return (
     <Box borderRadius="10px" border="1px solid grey" bgColor={bg}>
