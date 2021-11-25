@@ -20,20 +20,20 @@ import {
 import { ResponseExample } from '../../types/ResponseExample';
 
 type Props = {
-  response: ResponseExample[];
-  sorted: boolean,
+  sortedItems: ResponseExample[];
+  isSorted: boolean,
   sortHandler: () => void,
 }
 
 const TableComponent: React.FC<Props> = ({
-  response,
-  sorted,
+  sortedItems,
+  isSorted,
   sortHandler,
 }) => {
-  const bg = useColorModeValue('#d8d8d8', '#938f8f');
+  const colorOfBg = useColorModeValue('#d8d8d8', '#938f8f');
 
   return (
-    <Box borderRadius="10px" border="1px solid grey" bgColor={bg}>
+    <Box borderRadius="10px" border="1px solid grey" bgColor={colorOfBg}>
       <Table
         size="lg"
         variant="striped"
@@ -50,17 +50,23 @@ const TableComponent: React.FC<Props> = ({
             </Th>
             <Th>
               <Flex gridGap="10px" align="center">
-                <FaHashtag />
-                Score
-                {sorted
+                {isSorted
                   ? (
-                    <Button bgColor={bg} onClick={() => sortHandler()}>
-                      <FaArrowUp />
+                    <Button bgColor={colorOfBg} onClick={() => sortHandler()}>
+                      <Flex gridGap="10px" align="center">
+                        <FaHashtag />
+                        Score
+                        <FaArrowUp />
+                      </Flex>
                     </Button>
                   )
                   : (
-                    <Button bgColor={bg} onClick={() => sortHandler()}>
-                      <FaArrowDown />
+                    <Button bgColor={colorOfBg} onClick={() => sortHandler()}>
+                      <Flex gridGap="10px" align="center">
+                        <FaHashtag />
+                        Score
+                        <FaArrowDown />
+                      </Flex>
                     </Button>
                   )}
               </Flex>
@@ -68,7 +74,7 @@ const TableComponent: React.FC<Props> = ({
           </Tr>
         </Thead>
         <Tbody>
-          {response.map((item, index) => (
+          {sortedItems.map((item, index) => (
             <Tr key={index}>
               <Td>
                 {item.player}

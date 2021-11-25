@@ -11,15 +11,15 @@ import { ResponseExample } from './types/ResponseExample';
 
 const App = () => {
   const [response, setResponse] = useState<ResponseExample[]>(JSON.parse(sessionStorage.getItem('players') || '[]'));
-  const [sorted, setSorted] = useState<boolean>(JSON.parse(sessionStorage.getItem('orderSort') || 'true'));
-  const sortedItems = [...response.sort((a: ResponseExample, b: ResponseExample) => {
-    return sorted ? a.score - b.score : b.score - a.score;
-  })];
+  const [isSorted, setIsSorted] = useState<boolean>(JSON.parse(sessionStorage.getItem('orderSort') || 'true'));
+  const sortedItems = [...response].sort((a: ResponseExample, b: ResponseExample) => {
+    return isSorted ? a.score - b.score : b.score - a.score;
+  });
 
   const sortHandler = () => {
-    setSorted(() => {
-      sessionStorage.setItem('orderSort', JSON.stringify(!sorted));
-      return !sorted;
+    setIsSorted(() => {
+      sessionStorage.setItem('orderSort', JSON.stringify(!isSorted));
+      return !isSorted;
     });
   };
 
@@ -51,8 +51,8 @@ const App = () => {
           py="50px"
         >
           <TableComponent
-            response={sortedItems}
-            sorted={sorted}
+            sortedItems={sortedItems}
+            isSorted={isSorted}
             sortHandler={sortHandler}
           />
         </Flex>
