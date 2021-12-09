@@ -1,4 +1,4 @@
-# Finance app
+# Players scores app
 
 I have developed the table of player's scores, which is connected to server and takes data from there.
 Used stack: React, TypeScript, Chakra UI, SSE.
